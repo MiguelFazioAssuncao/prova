@@ -74,6 +74,26 @@ server.post("/logs", (request, response) => {
   });
 });
 
+server.get('/logs/:id', (request, response) => {
+  const { id } = request.params;
+
+  fs.readFile('logs.txt', 'utf-8', (err, data) => {
+    if (err) {
+      console.error('Erro ao ler arquivo:', err);
+      return response.status(500).send('Internal Server Error');
+    }
+
+    const logs = data ? JSON.parse(data) : [];
+    const log = logs.find(log => log.id === id);
+
+    if (!log) {
+      return response.status(404).send('Id não encontrado');
+    }
+
+    return response.status(200).json(log);
+  });
+});
+
 server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
