@@ -7,7 +7,7 @@ const PORT = 8000;
 
 server.use(express.json());
 
-server.post('/logs', (request, response) => {
+server.post('/logs/registro', (request, response) => {
     const body = request.body;
 
     const user = {
